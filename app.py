@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
 import json
-from googletrans import Translator
+from translate import Translator  # Importa a nova biblioteca
 
 def abrir_arquivo():
     """Abre um arquivo .json e retorna seu conteúdo."""
@@ -34,7 +34,6 @@ def traduzir_json(json_data, progress_bar, progress_var):
     mantendo as chaves originais, reconhecendo diferentes tipos de dados
     e atualizando a barra de progresso.
     """
-    translator = Translator()
     total_elementos = contar_elementos(json_data)
     elementos_traduzidos = 0
 
@@ -47,9 +46,14 @@ def traduzir_json(json_data, progress_bar, progress_var):
 
     def traduzir_valor(valor):
         if isinstance(valor, str) and valor is not None:
-            traducao = translator.translate(valor, dest='pt').text
-            atualizar_barra_progresso()
-            return traducao
+            try:
+                translator = Translator(to_lang="pt")  # Instancia o tradutor da nova biblioteca
+                traducao = translator.translate(valor)  # Usa o método translate da nova biblioteca
+                atualizar_barra_progresso()
+                return traducao
+            except Exception as e:
+                print(f"Erro ao traduzir '{valor}': {e}")
+                return valor
         return valor
 
     if isinstance(json_data, dict):
