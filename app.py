@@ -76,7 +76,6 @@ def exibir_traducao():
         janela_progresso.title("Traduzindo...")
         janela_progresso.geometry("400x150")
 
-        # Barra de progresso
         progress_var = tk.DoubleVar()
         progress_bar = ttk.Progressbar(janela_progresso, variable=progress_var, maximum=100)
         progress_bar.pack(pady=20)
